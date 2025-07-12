@@ -132,10 +132,7 @@ actor class Test() = this {
             for (input in VECTORS.vals()) {
                 await test("HMAC_SHA512 simple test", func(): async ()  {
                     let r = hash(input.key, input.data);
-                    Debug.print(r);
-                    Debug.print(input.output);
-                    Debug.print("===================================================");
-                    // assert(r == input.output);
+                    assert(r == input.output);
                 });
             };
 
@@ -148,9 +145,6 @@ actor class Test() = this {
                 await test("HMAC_SHA512 multi-part test | ", func(): async ()  {
                     let h1 = hash(#hex (input.keyHex), #bytes (Buffer.toArray(buf)));
                     let h2 = multi_part_hash(#hex (input.keyHex), Array.map<Text, Lib.InputType>(input.messageHexParts, func(part) = #hex part));
-                    // Debug.print("Key: " # input.keyHex);
-                    Debug.print("HMAC-SHA512 Digest: " # h1);
-                    // Debug.print("Multi-part HMAC-SHA512 Digest: " # h2);
                     assert(h1 == h2);
                 });
             };
