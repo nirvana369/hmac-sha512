@@ -2,7 +2,7 @@ dependencies = { }
 
 [package]
 name = "hmac-sha512"
-version = "1.0.0"
+version = "1.0.1"
 description = "A pure Motoko implementation of HMAC (Hash-based Message Authentication Code) using the SHA-512 cryptographic hash function"
 repository = "https://github.com/nirvana369/hmac-sha512"
 keywords = [
