@@ -41,7 +41,7 @@ let hmacHex = hmac.hexdigest();
 Using Different Input Formats
 ```
 // Hex input
-hmac.update(#HEX("badc0ffee0ddf00d"));
+hmac.update(#hex "badc0ffee0ddf00d");
 
 // Bytes input
 hmac.update(#bytes ([111, 222, 3, 6, 9]));

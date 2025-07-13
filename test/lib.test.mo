@@ -20,8 +20,10 @@ import Utils "../src/utils";
 
 actor class Test() = this {
 
+    let sha512 = Lib.HmacSha512();
+    
     private func hash(key: Lib.InputType, data: Lib.InputType): Text {
-        let sha512 = Lib.HmacSha512();
+        
         sha512.init(key);
         
         sha512.update(data);

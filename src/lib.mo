@@ -428,7 +428,19 @@ module {
         /// Initializes the SHA-512 instance with options
         public func init(input : InputType) {
             let hmacKey = getInput(input);
+            _init();
             _setHMACKey(hexToPacked(hmacKey, null, null, BIG_ENDIAN_MOD));
+        };
+
+        private func _init() {
+            intermediateState := getNewState512();
+            macKeySet := false;
+            keyWithIPad := [var];
+            keyWithOPad := [var];
+            remainder := [];
+            remainderLen := 0;
+            updateCalled := false;
+            processedLen := 0;
         };
 
         /// Performs a round of SHA-512 hashing over a block
@@ -569,18 +581,18 @@ module {
             let chunkBinLen = chunkInfo.binLen;
             let chunk = chunkInfo.value;
             let chunkIntLen = Int.abs(Int64.toInt(Int64.fromInt(chunkBinLen) >> 5));
-
+            let chunkBlockSize = Int.abs(Int64.toInt(Int64.fromInt(BLOCK_SIZE_512) >> 5));
             // Process all complete blocks
             var i = 0;
             while (i < chunkIntLen) {
                 if (updateProcessedLen + BLOCK_SIZE_512 <= chunkBinLen) {
                     intermediateState := processBlock(
-                        Array.subArray(chunk, i, Int.abs(Int64.toInt(Int64.fromInt(BLOCK_SIZE_512) >> 5))), 
+                        Array.subArray(chunk, i, chunkBlockSize), 
                         intermediateState
                     );
                     updateProcessedLen += Int.abs(BLOCK_SIZE_512);
                 };
-                i += Int.abs(Int64.toInt(Int64.fromInt(BLOCK_SIZE_512) >> 5));
+                i += chunkBlockSize;
             };
 
             processedLen += updateProcessedLen;
